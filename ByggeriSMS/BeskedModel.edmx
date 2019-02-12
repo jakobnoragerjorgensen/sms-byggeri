@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BeskederModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Besked">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="messagePid" Type="int" />
+          <Property Name="ts_oprettet" Type="datetime" />
+          <Property Name="afsender" Type="varchar" MaxLength="11" />
+          <Property Name="afsenderUserID" Type="varchar" MaxLength="20" />
+          <Property Name="afsenderNavn" Type="varchar" MaxLength="11" />
+          <Property Name="modtager" Type="varchar" MaxLength="20" />
+          <Property Name="modtagerType" Type="char" MaxLength="3" />
+          <Property Name="besked" Type="varchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="BeskedStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="beskedID" Type="int" Nullable="false" />
+          <Property Name="ts_status" Type="datetime" />
+          <Property Name="status" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Besked_Besked">
+          <End Role="Besked" Type="Self.Besked" Multiplicity="1" />
+          <End Role="Besked1" Type="Self.Besked" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Besked">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Besked1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BeskedStatus_Besked">
+          <End Role="Besked" Type="Self.Besked" Multiplicity="1" />
+          <End Role="BeskedStatus" Type="Self.BeskedStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Besked">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BeskedStatus">
+              <PropertyRef Name="beskedID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BeskederModelStoreContainer">
+          <EntitySet Name="Besked" EntityType="Self.Besked" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BeskedStatus" EntityType="Self.BeskedStatus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Besked_Besked" Association="Self.FK_Besked_Besked">
+            <End Role="Besked" EntitySet="Besked" />
+            <End Role="Besked1" EntitySet="Besked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BeskedStatus_Besked" Association="Self.FK_BeskedStatus_Besked">
+            <End Role="Besked" EntitySet="Besked" />
+            <End Role="BeskedStatus" EntitySet="BeskedStatus" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BeskederModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Besked">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ts_oprettet" Type="DateTime" Precision="3" />
+          <Property Name="afsender" Type="String" MaxLength="11" Unicode="false" FixedLength="false" />
+          <Property Name="afsenderUserID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="afsenderNavn" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="modtager" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="modtagerType" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="besked" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BeskedStatus" Relationship="Self.FK_BeskedStatus_Besked" FromRole="Besked" ToRole="BeskedStatus" />
+          <Property Name="messagePid" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BeskedStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="beskedID" Type="Int32" Nullable="false" />
+          <Property Name="ts_status" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Besked_Besked">
+          <End Role="Besked" Type="Self.Besked" Multiplicity="1" />
+          <End Role="Besked1" Type="Self.Besked" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Besked">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Besked1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BeskedStatus_Besked">
+          <End Role="Besked" Type="Self.Besked" Multiplicity="1" />
+          <End Role="BeskedStatus" Type="Self.BeskedStatus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Besked">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BeskedStatus">
+              <PropertyRef Name="beskedID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BeskederEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Besked" EntityType="Self.Besked" />
+          <EntitySet Name="BeskedStatus" EntityType="Self.BeskedStatus" />
+          <AssociationSet Name="FK_Besked_Besked" Association="Self.FK_Besked_Besked">
+            <End Role="Besked" EntitySet="Besked" />
+            <End Role="Besked1" EntitySet="Besked" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BeskedStatus_Besked" Association="Self.FK_BeskedStatus_Besked">
+            <End Role="Besked" EntitySet="Besked" />
+            <End Role="BeskedStatus" EntitySet="BeskedStatus" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BeskederModelStoreContainer" CdmEntityContainer="BeskederEntities">
+          <EntitySetMapping Name="Besked">
+            <EntityTypeMapping TypeName="BeskederModel.Besked">
+              <MappingFragment StoreEntitySet="Besked">
+                <ScalarProperty Name="messagePid" ColumnName="messagePid" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ts_oprettet" ColumnName="ts_oprettet" />
+                <ScalarProperty Name="afsender" ColumnName="afsender" />
+                <ScalarProperty Name="afsenderUserID" ColumnName="afsenderUserID" />
+                <ScalarProperty Name="afsenderNavn" ColumnName="afsenderNavn" />
+                <ScalarProperty Name="modtager" ColumnName="modtager" />
+                <ScalarProperty Name="modtagerType" ColumnName="modtagerType" />
+                <ScalarProperty Name="besked" ColumnName="besked" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BeskedStatus">
+            <EntityTypeMapping TypeName="BeskederModel.BeskedStatus">
+              <MappingFragment StoreEntitySet="BeskedStatus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="beskedID" ColumnName="beskedID" />
+                <ScalarProperty Name="ts_status" ColumnName="ts_status" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
